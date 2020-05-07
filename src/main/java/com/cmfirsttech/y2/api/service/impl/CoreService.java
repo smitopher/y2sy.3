@@ -28,7 +28,7 @@ import com.cmfirsttech.y2.api.service.AbstractService;
 public class CoreService extends AbstractService {
 
 	public static final String YBMDMDLLST_CMD = "YBLDMDLLST";
-	public static final String YBMDMDLLST_FORMAT = "%1$s OBJNAM(%2$s) MDLLST(%3$s/%4$s) LSTOPT(*ADD) INCSYSOBJ(%5$s)";
+	public static final String YBMDMDLLST_FORMAT = "%1$s OBJNAM(%2$s) MDLLST(%3$s/%4$s) LSTOPT(*REPLACE) INCSYSOBJ(%5$s)";
 	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0000000000.00000");
 
 	@Inject
@@ -121,7 +121,7 @@ public class CoreService extends AbstractService {
 	}
 	@Transactional
 	void clearModelList() {
-		Y2ModelListEntry.deleteAll();
+		// Y2ModelListEntry.deleteAll();
 	}
 
 	
