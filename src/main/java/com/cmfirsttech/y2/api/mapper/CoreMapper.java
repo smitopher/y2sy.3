@@ -148,7 +148,7 @@ public class CoreMapper implements IMapper{
 	
 	private boolean isEmpty(Object entityValue) {
 		if (entityValue instanceof String) {
-			return entityValue.toString().isEmpty();
+			return entityValue.toString().isBlank();
 		}
 
 		if (entityValue instanceof Number) {
