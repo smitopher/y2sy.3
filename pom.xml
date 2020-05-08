@@ -9,8 +9,8 @@
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <jacoco.version>0.8.5</jacoco.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>14</maven.compiler.source>
+    <maven.compiler.target>14</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus-plugin.version>1.4.2.Final</quarkus-plugin.version>
@@ -61,10 +61,10 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-metrics</artifactId>
     </dependency>
-<!--     <dependency> -->
-<!--       <groupId>io.quarkus</groupId> -->
-<!--       <artifactId>quarkus-kubernetes</artifactId> -->
-<!--     </dependency> -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-kubernetes</artifactId>
+    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-opentracing</artifactId>
