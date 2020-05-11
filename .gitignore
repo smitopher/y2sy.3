@@ -36,3 +36,4 @@ release.properties
 /jacoco.exec
 /old.application.properties
 /setenv.cmd
+/setvault.cmd

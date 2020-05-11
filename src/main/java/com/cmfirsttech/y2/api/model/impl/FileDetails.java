@@ -1,16 +1,26 @@
 package com.cmfirsttech.y2.api.model.impl;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+import org.jboss.logging.Logger;
+
+import com.cmfirsttech.y2.api.constants.DataModelRelationType;
+import com.cmfirsttech.y2.api.entity.IEntity;
+import com.cmfirsttech.y2.api.entity.impl.Y2Field;
 import com.cmfirsttech.y2.api.entity.impl.Y2File;
+import com.cmfirsttech.y2.api.mapper.DirectMapped;
+import com.cmfirsttech.y2.api.mapper.MappingException;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 import com.cmfirsttech.y2.api.model.internal.ModelClass;
 
 @Y2EntityClass(entityClass = Y2File.class)
 public class FileDetails extends AbstractModel{
-
+	
 	public Integer fileSurrogate;
 
 	public String objectTypeForObjectType;
@@ -60,4 +70,34 @@ public class FileDetails extends AbstractModel{
 //	@OneToMany(fetch = FetchType.EAGER)
 	@ModelClass(modelClass = FileFunctions.class)
 	public List<FileFunctions> functions;
+	
+	@DirectMapped(skip = true)
+	public Map<Integer, String> attributes;
+
+	@Override
+	public void customMapping(IEntity entity) {
+		super.customMapping(entity);
+		attributes = new LinkedHashMap<>();
+		for (DataModelTarget relation : relations) {
+			if (relation.relationType.equals(DataModelRelationType.DEFINED_AS)) {
+				continue;
+			}
+			for (ModelEntry attribute : relation.attributes) {
+				if (attributes.containsKey(attribute.fieldSurrogate)) {
+					continue;
+				}
+				Optional<Y2Field> y2Field = Optional.ofNullable(
+						Y2Field.findById(attribute.fieldSurrogate));
+				if (y2Field.isPresent()) {
+					Integer fldSurrogate = y2Field.get().fieldSurrogate;
+					String fieldName = y2Field.get().fieldName;
+					attributes.put(fldSurrogate, fieldName.stripTrailing());
+				} else {
+					String message = String.format("Error mapping attribute %1$d", attribute.fieldSurrogate);;
+					Logger.getLogger(getClass()).error(message);
+//					throw new MappingException(message);
+				}
+			}
+		}
+	}
 }

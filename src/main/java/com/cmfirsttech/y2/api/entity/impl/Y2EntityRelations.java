@@ -15,12 +15,15 @@
  ******************************************************************************/
 package com.cmfirsttech.y2.api.entity.impl;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Immutable;
@@ -123,4 +126,7 @@ public class Y2EntityRelations extends AbstractEntity {
 	
 	@Column(name = "@@RELFUN5")
 	public Integer relationFunctionMsgSgt5;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "designatingRelation")
+	public Set<Y2ModelEntry> attributes;
 }

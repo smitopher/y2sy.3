@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
+    <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+        <mapEntry key="VAULT_ADDR" value="http://localhost:8200"/>
+        <mapEntry key="VAULT_DEV_ROOT_TOKEN_ID" value="y2api"/>
+        <mapEntry key="VAULT_TOKEN" value="y2api"/>
+    </mapAttribute>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="vault.exe"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="server -dev"/>
+</launchConfiguration>

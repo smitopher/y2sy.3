@@ -29,6 +29,7 @@ import com.cmfirsttech.y2.api.entity.impl.Y2FieldAttribute;
 import com.cmfirsttech.y2.api.entity.impl.Y2FieldDomain;
 import com.cmfirsttech.y2.api.entity.impl.Y2File;
 import com.cmfirsttech.y2.api.entity.impl.Y2FunctionDetails;
+import com.cmfirsttech.y2.api.entity.impl.Y2ModelEntry;
 import com.cmfirsttech.y2.api.entity.impl.Y2ModelListEntry;
 
 import io.quarkus.test.junit.QuarkusTest;
@@ -51,6 +52,7 @@ public class Test_02_JPA {
 		JPA_ENTITIES.put(Y2File.class.getSimpleName(), Y2File.class);
 		JPA_ENTITIES.put(Y2FunctionDetails.class.getSimpleName(), Y2FunctionDetails.class);
 		JPA_ENTITIES.put(Y2ModelListEntry.class.getSimpleName(), Y2ModelListEntry.class);
+		JPA_ENTITIES.put(Y2ModelEntry.class.getName(), Y2ModelEntry.class);
 	}
 
 	@Test

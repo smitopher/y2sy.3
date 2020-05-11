@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.cmfirsttech.y2.api.model.impl;
 
+import java.util.List;
+
 import com.cmfirsttech.y2.api.constants.DataModelRelationType;
 import com.cmfirsttech.y2.api.constants.ObjectType;
 import com.cmfirsttech.y2.api.constants.RelationExtension;
@@ -24,6 +26,7 @@ import com.cmfirsttech.y2.api.entity.impl.Y2EntityRelations;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
+import com.cmfirsttech.y2.api.model.internal.ModelClass;
  
 
 @Y2EntityClass(entityClass = Y2EntityRelations.class)
@@ -64,6 +67,9 @@ public class DataModelTarget extends AbstractModel{
 	public String sharingObject;
 	
 	public Integer selectRecordSurrogate;
+	
+	@ModelClass(modelClass = ModelEntry.class)
+	public List<ModelEntry> attributes;
 	
 	@Override
 	public void customMapping(IEntity entity) {

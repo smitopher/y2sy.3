@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import com.cmfirsttech.y2.api.entity.impl.Y2ModelListEntry;
 import com.cmfirsttech.y2.api.mapper.CoreMapper;
@@ -17,6 +18,7 @@ public class Y2ListServiceAsync {
 	@Inject
 	CoreMapper mapper;
 	
+	@Transactional
 	public Multi<ObjectListEntry> asyncAll() {
 		return Multi.createFrom().items(getStream()).map(this::map);
 	}

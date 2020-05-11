@@ -31,6 +31,7 @@ import com.cmfirsttech.y2.api.model.impl.FileAccessPaths;
 import com.cmfirsttech.y2.api.model.impl.FileDetails;
 import com.cmfirsttech.y2.api.model.impl.FileFunctions;
 import com.cmfirsttech.y2.api.model.impl.FunctionDetails;
+import com.cmfirsttech.y2.api.model.impl.ModelEntry;
 import com.cmfirsttech.y2.api.model.impl.ObjectListEntry;
 import com.cmfirsttech.y2.api.model.internal.ModelClass;
 
@@ -53,6 +54,7 @@ public class Test_03_Models {
 		MODELS.put(FileFunctions.class.getName(), FileFunctions.class);
 		MODELS.put(FunctionDetails.class.getName(), FunctionDetails.class);
 		MODELS.put(ObjectListEntry.class.getName(), ObjectListEntry.class);
+		MODELS.put(ModelEntry.class.getName(), ModelEntry.class);
 	}
 	
 	@DirectMapped
