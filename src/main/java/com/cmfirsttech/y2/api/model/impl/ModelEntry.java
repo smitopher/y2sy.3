@@ -1,10 +1,13 @@
 package com.cmfirsttech.y2.api.model.impl;
 
+import static com.cmfirsttech.y2.api.mapper.MappingType.SKIP;
+
 import java.math.BigDecimal;
 
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2ModelEntry;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
+import com.cmfirsttech.y2.api.mapper.IMapper;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 
@@ -27,7 +30,7 @@ public class ModelEntry extends AbstractModel {
 
 	public Integer definingRelationSgt;
 
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public Integer designatingRelationSgt;
 
 	public Integer refEntrySurrogate;
@@ -53,8 +56,8 @@ public class ModelEntry extends AbstractModel {
 	public String redirectionType;
 
 	@Override
-	public void customMapping(IEntity entity) {
-		super.customMapping(entity);
+	public void customMapping(IEntity entity, IMapper mapper) {
+		super.customMapping(entity, mapper);
 		Y2ModelEntry y2ModelEntry = (Y2ModelEntry) entity;
 		designatingRelationSgt = y2ModelEntry.designatingRelation.relationSurrogate;
 	}

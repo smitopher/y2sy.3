@@ -30,6 +30,6 @@ public @interface DirectMapped {
 	String mapSource() default "";
 	String instantDateSource() default "";
 	String instantTimeSource() default "";
+	MappingType mappingType() default MappingType.NAMED;
 	boolean nullIfEmpty() default true;
-	boolean skip() default false;
 }

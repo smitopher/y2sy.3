@@ -1,5 +1,7 @@
 package com.cmfirsttech.y2.api.model.impl;
 
+import static com.cmfirsttech.y2.api.mapper.MappingType.SKIP;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +9,8 @@ import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2Field;
 import com.cmfirsttech.y2.api.entity.impl.Y2FieldDomain;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
+import com.cmfirsttech.y2.api.mapper.IMapper;
+import com.cmfirsttech.y2.api.mapper.MappingType;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 import com.cmfirsttech.y2.api.model.internal.ModelClass;
@@ -16,7 +20,7 @@ public class FieldDomain extends AbstractModel{
 
 	public Integer domainSurrogate;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public String domainFieldName;
 
 	public String objectType;
@@ -62,12 +66,12 @@ public class FieldDomain extends AbstractModel{
 	public String mandatoryFill;
 	
 	@ModelClass(modelClass = FieldCondition.class) 
-	@DirectMapped(mapSource = "mdlConditions")
+	@DirectMapped(mappingType = MappingType.COLLECTION, mapSource = "mdlConditions")
 	public List<FieldCondition> conditions;
 
 	@Override
-	public void customMapping(IEntity entity) {
-		super.customMapping(entity);
+	public void customMapping(IEntity entity, IMapper mapper) {
+		super.customMapping(entity, mapper);
 		Optional<Y2Field> y2Field = Optional.ofNullable(Y2Field.findById(domainSurrogate));
 		if (y2Field.isPresent()) {
 			domainFieldName = y2Field.get().fieldName;

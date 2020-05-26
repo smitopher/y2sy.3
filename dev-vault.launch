@@ -6,6 +6,6 @@
         <mapEntry key="VAULT_TOKEN" value="y2api"/>
     </mapAttribute>
     <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
-    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="vault.exe"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="C:\ProgramData\chocolatey\bin\vault.exe"/>
     <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="server -dev"/>
 </launchConfiguration>

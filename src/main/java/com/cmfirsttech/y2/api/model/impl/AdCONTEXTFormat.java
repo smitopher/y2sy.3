@@ -17,36 +17,27 @@ package com.cmfirsttech.y2.api.model.impl;
 
 import java.time.Instant;
 
-import com.cmfirsttech.y2.api.constants.FunctionType;
-import com.cmfirsttech.y2.api.constants.ObjectAttribute;
-import com.cmfirsttech.y2.api.constants.ObjectType;
-import com.cmfirsttech.y2.api.entity.impl.Y2ModelListEntry;
+import com.cmfirsttech.y2.api.entity.impl.Y2FunctionActionDiagram;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
 import com.cmfirsttech.y2.api.mapper.MappingType;
-import com.cmfirsttech.y2.api.model.AbstractModel;
+import com.cmfirsttech.y2.api.model.AbstractActionDiagramElement;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 
-@Y2EntityClass(entityClass = Y2ModelListEntry.class)
-public class ObjectListEntry extends AbstractModel{
+/**
+ * Action Diagram DDS format @CONTEXT
+ * 
+ */
+@Y2EntityClass(entityClass = Y2FunctionActionDiagram.class)
+public class AdCONTEXTFormat extends AbstractActionDiagramElement {
 	
-	public Integer objectSurrogate;
-	
-	public String object;
-	
-	public ObjectType objectType;
-	
-	public ObjectAttribute objectAttribute;
-	
-	public Integer ownerSurrogate;
-	
-	public String owner;
-	
-	public String implName;
-	
-	public FunctionType functionType;
+	@DirectMapped(mapSource = "elementTitle")
+	public String contextProgramDescribed;
 
-	@DirectMapped(mappingType = MappingType.INSTANT, instantDateSource = "creationDate", instantTimeSource = "creationTime")
-	public Instant creationTimestamp;
-	@DirectMapped(mappingType = MappingType.INSTANT, instantDateSource = "changeDate", instantTimeSource = "changeTime")
-	public Instant updateTimestamp;
+	public String userDefined;
+
+	public String systemGenerated;
+
+	@DirectMapped(mappingType = MappingType.INSTANT, instantDateSource = "dateAddedLastChanged", instantTimeSource = "timeAddedLastChanged")
+	public Instant auditStamp;
+
 }

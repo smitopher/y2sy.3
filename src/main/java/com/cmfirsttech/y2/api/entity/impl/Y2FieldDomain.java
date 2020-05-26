@@ -112,6 +112,6 @@ public class Y2FieldDomain extends AbstractEntity {
 	public Set<Y2Field> mdlFields;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "mdlFieldDomain")
-	public Set<Y2ConditionDetails> mdlConditions;
+	public Set<Y2ConditionDetails1JL> mdlConditions;
 	
 }

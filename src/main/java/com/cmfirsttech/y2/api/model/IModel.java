@@ -16,7 +16,8 @@
 package com.cmfirsttech.y2.api.model;
 
 import com.cmfirsttech.y2.api.entity.IEntity;
+import com.cmfirsttech.y2.api.mapper.IMapper;
 
 public interface  IModel {
-	public void customMapping(IEntity entity);
+	public void customMapping(IEntity entity, IMapper mapper);
 }

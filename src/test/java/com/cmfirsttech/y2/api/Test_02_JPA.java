@@ -22,12 +22,13 @@ import org.junit.jupiter.api.Test;
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2AccessPath;
 import com.cmfirsttech.y2.api.entity.impl.Y2ArrayData;
-import com.cmfirsttech.y2.api.entity.impl.Y2ConditionDetails;
+import com.cmfirsttech.y2.api.entity.impl.Y2ConditionDetails1JL;
 import com.cmfirsttech.y2.api.entity.impl.Y2EntityRelations;
 import com.cmfirsttech.y2.api.entity.impl.Y2Field;
 import com.cmfirsttech.y2.api.entity.impl.Y2FieldAttribute;
 import com.cmfirsttech.y2.api.entity.impl.Y2FieldDomain;
 import com.cmfirsttech.y2.api.entity.impl.Y2File;
+import com.cmfirsttech.y2.api.entity.impl.Y2FunctionActionDiagram;
 import com.cmfirsttech.y2.api.entity.impl.Y2FunctionDetails;
 import com.cmfirsttech.y2.api.entity.impl.Y2ModelEntry;
 import com.cmfirsttech.y2.api.entity.impl.Y2ModelListEntry;
@@ -44,7 +45,7 @@ public class Test_02_JPA {
 	static {
 		JPA_ENTITIES.put(Y2AccessPath.class.getSimpleName(), Y2AccessPath.class);
 		JPA_ENTITIES.put(Y2ArrayData.class.getSimpleName(), Y2ArrayData.class);
-		JPA_ENTITIES.put(Y2ConditionDetails.class.getSimpleName(), Y2ConditionDetails.class);
+		JPA_ENTITIES.put(Y2ConditionDetails1JL.class.getSimpleName(), Y2ConditionDetails1JL.class);
 		JPA_ENTITIES.put(Y2EntityRelations.class.getSimpleName(), Y2EntityRelations.class);
 		JPA_ENTITIES.put(Y2Field.class.getSimpleName(), Y2Field.class);
 		JPA_ENTITIES.put(Y2FieldAttribute.class.getSimpleName(), Y2FieldAttribute.class);
@@ -53,6 +54,7 @@ public class Test_02_JPA {
 		JPA_ENTITIES.put(Y2FunctionDetails.class.getSimpleName(), Y2FunctionDetails.class);
 		JPA_ENTITIES.put(Y2ModelListEntry.class.getSimpleName(), Y2ModelListEntry.class);
 		JPA_ENTITIES.put(Y2ModelEntry.class.getName(), Y2ModelEntry.class);
+		JPA_ENTITIES.put(Y2FunctionActionDiagram.class.getName(), Y2FunctionActionDiagram.class);
 	}
 
 	@Test

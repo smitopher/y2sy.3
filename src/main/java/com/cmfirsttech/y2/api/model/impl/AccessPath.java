@@ -15,16 +15,19 @@
  ******************************************************************************/
 package com.cmfirsttech.y2.api.model.impl;
 
+import static com.cmfirsttech.y2.api.mapper.MappingType.SKIP;
+
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2AccessPath;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
+import com.cmfirsttech.y2.api.mapper.IMapper;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
  
 @Y2EntityClass(entityClass = Y2AccessPath.class)
 public class AccessPath extends AbstractModel {	
 
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public Integer y2File;
 
 	public String accessPathName;
@@ -76,9 +79,9 @@ public class AccessPath extends AbstractModel {
 	public String sharedOpenDataPaths;
 
 	@Override
-	public void customMapping(IEntity entity) {
+	public void customMapping(IEntity entity, IMapper mapper) {
 		// TODO Auto-generated method stub
-		super.customMapping(entity);
+		super.customMapping(entity, mapper);
 		Y2AccessPath ap = (Y2AccessPath)entity;
 		y2File = ap.y2File.fileSurrogate;
 	}

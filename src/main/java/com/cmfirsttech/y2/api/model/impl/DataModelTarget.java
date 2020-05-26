@@ -24,6 +24,8 @@ import com.cmfirsttech.y2.api.constants.RelationLevel;
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2EntityRelations;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
+import com.cmfirsttech.y2.api.mapper.IMapper;
+import static com.cmfirsttech.y2.api.mapper.MappingType.*;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 import com.cmfirsttech.y2.api.model.internal.ModelClass;
@@ -34,36 +36,36 @@ public class DataModelTarget extends AbstractModel{
 	
 	public Integer relationSurrogate;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public RelationLevel relationLevel;
 	
 	public Integer relationSequence;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public DataModelRelationType relationType;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public RelationExtension relationQualified;
 
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public Integer referencedObjectSurrogate;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public String refencedObject;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public ObjectType referencedObjectType;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public String forName;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public RelationExtension relationSharing;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public Integer sharingSurrogate;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public String sharingObject;
 	
 	public Integer selectRecordSurrogate;
@@ -72,7 +74,7 @@ public class DataModelTarget extends AbstractModel{
 	public List<ModelEntry> attributes;
 	
 	@Override
-	public void customMapping(IEntity entity) {
+	public void customMapping(IEntity entity, IMapper mapper) {
 		Y2EntityRelations relation = (Y2EntityRelations) entity;
 		relationLevel = RelationLevel.getRelationLevel(relation.relationLevel).get();
 		relationType = DataModelRelationType.fromCodeValue(relation.relationType);

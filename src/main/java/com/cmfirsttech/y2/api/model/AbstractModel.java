@@ -16,6 +16,7 @@
 package com.cmfirsttech.y2.api.model;
 
 import com.cmfirsttech.y2.api.entity.IEntity;
+import com.cmfirsttech.y2.api.mapper.IMapper;
 
 public abstract class AbstractModel implements IModel {
 
@@ -25,7 +26,7 @@ public abstract class AbstractModel implements IModel {
 	 * mapping requirements 
 	 */
 	@Override
-	public void customMapping(IEntity entity) {
+	public void customMapping(IEntity entity, IMapper mapper) {
 		return;
 	}
 

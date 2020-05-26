@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.cmfirsttech.y2.api.model.impl;
 
+import static com.cmfirsttech.y2.api.mapper.MappingType.SKIP;
+
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -23,6 +25,7 @@ import com.cmfirsttech.y2.api.constants.ObjectType;
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2Field;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
+import com.cmfirsttech.y2.api.mapper.IMapper;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 
@@ -35,7 +38,7 @@ public class FieldDetails extends AbstractModel {
 
 	public String objectAttribute;
 
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public FieldType fieldType;
 
 	public String fieldName;
@@ -53,8 +56,8 @@ public class FieldDetails extends AbstractModel {
 	public String oldDdsName;
 	
 	@Override
-	public void customMapping(IEntity entity) {
-		super.customMapping(entity);
+	public void customMapping(IEntity entity, IMapper mapper) {
+		super.customMapping(entity, mapper);
 		Y2Field y2Field = (Y2Field)entity;
 		Optional<FieldType> type = FieldType.fromJsonValue(y2Field.objectAttribute);
 		fieldType = type.orElse(FieldType.CUSTOM);

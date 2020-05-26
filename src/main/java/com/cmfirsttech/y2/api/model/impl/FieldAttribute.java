@@ -1,11 +1,14 @@
 package com.cmfirsttech.y2.api.model.impl;
 
+import static com.cmfirsttech.y2.api.mapper.MappingType.SKIP;
+
 import java.util.Optional;
 
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2FieldAttribute;
 import com.cmfirsttech.y2.api.entity.impl.Y2FunctionDetails;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
+import com.cmfirsttech.y2.api.mapper.IMapper;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 
@@ -55,12 +58,12 @@ public class FieldAttribute extends AbstractModel{
 
 //	@Column(name="@@EXTINT")
 	public Integer ext_intMappingFunction;
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public String ext_intMappingFunctionName;
 
 //	@Column(name="@@INTEXT")
 	public Integer int_extMappingFunction;
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public String int_extMappingFunctionName;
 
 //	@Column(name="ALWVALLST", length=1)
@@ -170,14 +173,14 @@ public class FieldAttribute extends AbstractModel{
 	public String displayAtr_Entry;
 
 	@Override
-	public void customMapping(IEntity entity) {
-		super.customMapping(entity);
+	public void customMapping(IEntity entity, IMapper mapper) {
+		super.customMapping(entity, mapper);
 		if (ext_intMappingFunction != null) {
 			Optional<Y2FunctionDetails> functionDetails = 
 					Optional.ofNullable(Y2FunctionDetails.findById(ext_intMappingFunction));
 			if (functionDetails.isPresent()) {
 				String fileName = functionDetails.get().fileName.stripTrailing();
-				String fncName = functionDetails.get().messageName.stripTrailing();
+				String fncName = functionDetails.get().functionName.stripTrailing();
 				ext_intMappingFunctionName = String.format("%1$s.%2$s", fileName, fncName);
 			}
 		}
@@ -186,7 +189,7 @@ public class FieldAttribute extends AbstractModel{
 					Optional.ofNullable(Y2FunctionDetails.findById(ext_intMappingFunction));
 			if (functionDetails.isPresent()) {
 				String fileName = functionDetails.get().fileName.stripTrailing();
-				String fncName = functionDetails.get().messageName.stripTrailing();
+				String fncName = functionDetails.get().functionName.stripTrailing();
 				int_extMappingFunctionName = String.format("%1$s.%2$s", fileName, fncName);
 			}
 		}

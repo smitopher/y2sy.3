@@ -1,5 +1,7 @@
 package com.cmfirsttech.y2.api.model.impl;
 
+import static com.cmfirsttech.y2.api.mapper.MappingType.SKIP;
+
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,7 +15,7 @@ import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2Field;
 import com.cmfirsttech.y2.api.entity.impl.Y2File;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
-import com.cmfirsttech.y2.api.mapper.MappingException;
+import com.cmfirsttech.y2.api.mapper.IMapper;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 import com.cmfirsttech.y2.api.model.internal.ModelClass;
@@ -71,12 +73,12 @@ public class FileDetails extends AbstractModel{
 	@ModelClass(modelClass = FileFunctions.class)
 	public List<FileFunctions> functions;
 	
-	@DirectMapped(skip = true)
+	@DirectMapped(mappingType = SKIP)
 	public Map<Integer, String> attributes;
 
 	@Override
-	public void customMapping(IEntity entity) {
-		super.customMapping(entity);
+	public void customMapping(IEntity entity, IMapper mapper) {
+		super.customMapping(entity, mapper);
 		attributes = new LinkedHashMap<>();
 		for (DataModelTarget relation : relations) {
 			if (relation.relationType.equals(DataModelRelationType.DEFINED_AS)) {

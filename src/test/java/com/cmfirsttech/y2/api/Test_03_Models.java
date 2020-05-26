@@ -19,9 +19,18 @@ import org.junit.jupiter.api.Test;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
 import com.cmfirsttech.y2.api.mapper.MapperFields;
 import com.cmfirsttech.y2.api.mapper.MappingConfig;
+import com.cmfirsttech.y2.api.mapper.MappingType;
 import com.cmfirsttech.y2.api.model.IModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 import com.cmfirsttech.y2.api.model.impl.AccessPath;
+import com.cmfirsttech.y2.api.model.impl.AdACTIONFormat;
+import com.cmfirsttech.y2.api.model.impl.AdBLOCKFormat;
+import com.cmfirsttech.y2.api.model.impl.AdCOMPAREFormat;
+import com.cmfirsttech.y2.api.model.impl.AdCONDITFormat;
+import com.cmfirsttech.y2.api.model.impl.AdCONTEXTFormat;
+import com.cmfirsttech.y2.api.model.impl.AdPARAMFormat;
+import com.cmfirsttech.y2.api.model.impl.AdSUBBLKFormat;
+import com.cmfirsttech.y2.api.model.impl.AdUSREXPFormat;
 import com.cmfirsttech.y2.api.model.impl.DataModelTarget;
 import com.cmfirsttech.y2.api.model.impl.FieldAttribute;
 import com.cmfirsttech.y2.api.model.impl.FieldCondition;
@@ -55,6 +64,14 @@ public class Test_03_Models {
 		MODELS.put(FunctionDetails.class.getName(), FunctionDetails.class);
 		MODELS.put(ObjectListEntry.class.getName(), ObjectListEntry.class);
 		MODELS.put(ModelEntry.class.getName(), ModelEntry.class);
+		MODELS.put(AdACTIONFormat.class.getName(), AdACTIONFormat.class);
+		MODELS.put(AdBLOCKFormat.class.getName(), AdBLOCKFormat.class);
+		MODELS.put(AdCOMPAREFormat.class.getName(), AdCOMPAREFormat.class);
+		MODELS.put(AdCONDITFormat.class.getName(), AdCONDITFormat.class);
+		MODELS.put(AdCONTEXTFormat.class.getName(), AdCONTEXTFormat.class);
+		MODELS.put(AdPARAMFormat.class.getName(), AdPARAMFormat.class);
+		MODELS.put(AdSUBBLKFormat.class.getName(), AdSUBBLKFormat.class);
+		MODELS.put(AdUSREXPFormat.class.getName(), AdUSREXPFormat.class);
 	}
 	
 	@DirectMapped
@@ -87,37 +104,87 @@ public class Test_03_Models {
 				if (directMapped == null) {
 					directMapped = defaultMapping;
 				}
-				if (directMapped.skip()) {
-					assertFalse(configsMap.containsKey(field));
+				if (skipMapping(field, directMapped, configsMap)) {
 					continue;
-				} else {
-					assertTrue(configsMap.containsKey(field));
 				}
+				assertTrue(configsMap.containsKey(field));
 				MappingConfig mc = configsMap.remove(field);
 				assertTrue(mc.field.equals(field));
-				if (field.getType().equals(Instant.class)) {
-					assertFalse(directMapped.instantDateSource().isBlank());
-					assertFalse(directMapped.instantTimeSource().isBlank());
-					assertTrue(mc.instantDateSource.equals(directMapped.instantDateSource()));
-					assertTrue(mc.instantTimeSource.equals(directMapped.instantTimeSource()));
-				} else {
-					String mapSource = directMapped.mapSource();
-					if (mapSource.isBlank()) {
-						mapSource = field.getName();
-					}
-					assertTrue(mc.mapSource.equals(mapSource));
-				}
 				assertTrue(mc.nullIfEmpty == directMapped.nullIfEmpty());
-				assertTrue(mc.isSubMap == IModel.class.isAssignableFrom(field.getType()));
-				assertTrue(mc.isCollection == Collection.class.isAssignableFrom(field.getType()));
-				
-				if (mc.isCollection) {
-					assertTrue(field.isAnnotationPresent(ModelClass.class));
+				Class<?> fieldType = field.getType();
+				if (fieldType.equals(Instant.class)) {
+					assertTrue(mc.mappingType.equals(MappingType.INSTANT));
+				} else if (fieldType.isEnum()) {
+					assertTrue(mc.mappingType.equals(MappingType.NAMED_ENUM));
+				} else if (field.getType().equals(Boolean.class)) {
+					assertTrue(mc.mappingType.equals(MappingType.NAMED_BOOLEAN));
+				} else if (IModel.class.isAssignableFrom(fieldType)) {
+					assertTrue(mc.mappingType.equals(MappingType.SUB_MAP));
+				} else if (Collection.class.isAssignableFrom(fieldType)) {
+					assertTrue(mc.mappingType.equals(MappingType.COLLECTION));
+				}
+				switch (mc.mappingType) {
+				case NAMED -> namedMapping(mc, field, directMapped);
+				case NAMED_BOOLEAN -> booleanMapping(mc, field, directMapped);
+				case NAMED_ENUM -> enumMapping(mc, field, directMapped);
+				case INSTANT -> instantMapping(mc, field, directMapped);
+				case SUB_MAP -> subMapping(mc, field, directMapped);
+				case COLLECTION -> collectionMapping(mc, field, directMapped);
+				default -> throw new IllegalArgumentException("Unexpected value: " + mc.mappingType);
 				}
 			}
 			assertTrue(configsMap.isEmpty());
 		}
 		logger.info("** Completed Validation of Model annotations");
+	}
+
+
+	private boolean skipMapping(Field field, DirectMapped directMapped, Map<Field, MappingConfig> configsMap) {
+		boolean skip = directMapped.mappingType().equals(MappingType.SKIP);
+		if (skip) {
+			assertFalse(configsMap.containsKey(field));
+		}
+		return skip;
+	}
+
+
+	private void collectionMapping(MappingConfig mc, Field field, DirectMapped directMapped) {
+		namedMapping(mc, field, directMapped);
+		assertTrue(Collection.class.isAssignableFrom(field.getType()));
+		assertTrue(field.isAnnotationPresent(ModelClass.class));
+	}
+
+
+	private void subMapping(MappingConfig mc, Field field, DirectMapped directMapped) {
+		namedMapping(mc, field, directMapped);
+		assertTrue(IModel.class.isAssignableFrom(field.getType()));
+	}
+
+
+	private void instantMapping(MappingConfig mc, Field field, DirectMapped directMapped) {
+		assertFalse(directMapped.instantDateSource().isBlank());
+		assertFalse(directMapped.instantTimeSource().isBlank());
+		assertTrue(mc.instantDateSource.equals(directMapped.instantDateSource()));
+		assertTrue(mc.instantTimeSource.equals(directMapped.instantTimeSource()));
+	}
+
+
+	private void enumMapping(MappingConfig mc, Field field, DirectMapped directMapped) {
+		namedMapping(mc, field, directMapped);
+	}
+
+
+	private void booleanMapping(MappingConfig mc, Field field, DirectMapped directMapped) {
+		namedMapping(mc, field, directMapped);
+	}
+
+
+	private void namedMapping(MappingConfig mc, Field field, DirectMapped directMapped) {
+		String mapSource = directMapped.mapSource();
+		if (mapSource.isBlank()) {
+			mapSource = field.getName();
+		}
+		assertTrue(mc.mapSource.equals(mapSource));
 	}
 	
 }

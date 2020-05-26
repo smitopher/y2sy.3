@@ -27,5 +27,7 @@ public class Y2Token {
 	public String libl;
 	
 	public String fileForAlias;
+	
+	public String fileForActionDiagram;
 
 }

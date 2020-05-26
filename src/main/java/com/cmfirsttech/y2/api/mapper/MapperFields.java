@@ -39,7 +39,7 @@ public class MapperFields {
 		Set<MappingConfig> mapperSet = new LinkedHashSet<>();
 		for (Field field : mappingClass.getFields()) {
 			MappingConfig mappingConfig = new MappingConfig(field);
-			if (mappingConfig.skip) {
+			if (mappingConfig.mappingType.equals(MappingType.SKIP)) {
 				if (logger.isDebugEnabled()) {
 					logger.debug(String.format("Skipping mapping field %1$s for %2$s", mappingClass.getSimpleName()));
 				}

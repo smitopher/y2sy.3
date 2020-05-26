@@ -26,47 +26,44 @@ import com.cmfirsttech.y2.api.entity.AbstractEntity;
 
 
 /**
- * Function details.
+ * MDL Message                   Physical file
  * 
  */
 @Entity
-@Table(name="YMSGDTA1JL")
-public class Y2FunctionDetails extends AbstractEntity {
+@Table(name="YMSGDTARFP")
+public class Y2Message extends AbstractEntity {
 
 
 	@Column(name="@@FIL")
 	public Integer fileSurrogate;
 
-	@Column(name="FIL", length=25)
-	public String fileName;
-
-	@Column(name="FILREQSYN", length=1)
-	public String fileRequiredBySynon_2;
-
 	@Column(name="MSG", length=25)
-	public String functionName;
+	public String messageName;
 
 	@Id
 	@Column(name="@@MSG")
-	public Integer functionSurrogate;
+	public Integer messageSurrogate;
 
 	@Column(name="@@FLD")
 	public Integer fieldSurrogate;
 
 	@Column(name="OBJTYP", length=3)
-	public String objectType;
+	public String objectTypeForObjectType;
 
 	@Column(name="OBJATR", length=3)
-	public String nptObjectAttribute;
+	public String objectAttributeForNptObjectAttribute;
 
 	@Column(name="OS2ATR", length=3)
-	public String os2ObjectAttribute;
+	public String objectAttributeForOs2ObjectAttribute;
 
 	@Column(name="@@ACP")
-	public Integer accessPathSurrogate;
+	public Integer accessPathSurrogateForAccessPathSelectOmit;
 
 	@Column(name="@@MSG_P")
-	public Integer messagePrototypeSgt;
+	public Integer messagePrototypeSgtForMeSsagePrototype;
+
+	@Column(name="DSPSEQ", precision=5, scale=2)
+	public BigDecimal displaySequenceNo;
 
 	@Column(name="SRCMBR", length=10)
 	public String sourceMember;
@@ -78,7 +75,7 @@ public class Y2FunctionDetails extends AbstractEntity {
 	public BigDecimal documentationSequence;
 
 	@Column(name="RSTMSGIND", length=1)
-	public String restricetedMessageInd;
+	public String restrictedMessageInd;
 
 	@Column(name="CNDSTB", length=8)
 	public String conditionStub;
@@ -87,10 +84,28 @@ public class Y2FunctionDetails extends AbstractEntity {
 	public String typeSpecificOptions;
 
 	@Column(name="REQSYN", length=1)
-	public String fncRequiredBySynon_2;
+	public String requiredBySynon_2;
 
 	@Column(name="DFTMSGIND", length=1)
 	public String defaultMessageInd;
+
+	@Column(name="MSGTXOV", length=1)
+	public String overridePromptTextForMsg;
+
+	@Column(name="MSGMSID", length=7)
+	public String defaultPromptMsgidForMsg;
+
+	@Column(name="TXTTXOV", length=1)
+	public String overridePromptTextForTxt;
+
+	@Column(name="TXTMSID", length=7)
+	public String defaultPromptMsgidForTxt;
+
+	@Column(name="MSGTBLVNM", length=10)
+	public String functionMessageTableName;
+
+	@Column(name="ALWINEXP", length=1)
+	public String allowInComputeExpression;
 
 	@Column(name="@@SBMOVR")
 	public Integer sbmjobOverrideSgt;
