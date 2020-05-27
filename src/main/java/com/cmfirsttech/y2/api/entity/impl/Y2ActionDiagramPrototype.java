@@ -13,16 +13,23 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package com.cmfirsttech.y2.api.entity.prototype;
+package com.cmfirsttech.y2.api.entity.impl;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.jboss.logging.Logger;
+
 import com.cmfirsttech.y2.api.entity.AbstractEntity;
+import com.cmfirsttech.y2.api.entity.ActionDiagramId;
+import com.cmfirsttech.y2.api.entity.ActionDiagramPrototypeId;
+import com.cmfirsttech.y2.api.mapper.MappingException;
 
 
 /**
@@ -81,5 +88,45 @@ public class Y2ActionDiagramPrototype extends AbstractEntity {
 
 	@Column(name="FMTSEQ")
 	public Integer formatSequenceNumber;
+	
+	public Y2FunctionActionDiagram mapfromPrototype() {
+		Y2FunctionActionDiagram ad = new Y2FunctionActionDiagram();
+		for (Field field : ad.getFields()) {
+			try {
+				if (field.isAnnotationPresent(EmbeddedId.class)) {
+					ActionDiagramId embeddedId = new ActionDiagramId();
+					embeddedId.functionSurrogate = adid.functionSurrogate;
+					embeddedId.elementNo = adid.elementNo;
+					ad.adId = embeddedId;
+					continue;
+				}
+				Optional<Field> prototype = getMappedField(field.getName());
+				if (prototype.isPresent()) {
+					field.set(ad, prototype.get().get(this));
+					continue;
+				}
+				if (field.getType().equals(String.class)) {
+					field.set(ad, "");
+					continue;
+				}
+				if (field.getType().equals(Integer.class)) {
+					field.set(ad, Integer.valueOf(0));
+					continue;
+				}
+				if (field.getType().equals(BigDecimal.class)) {
+					field.set(ad, BigDecimal.ZERO);
+					continue;
+				}
+				String message = String.format("AD Prototype mapping error for field %1$s", field.getName());
+				Logger.getLogger(getClass()).error(message);
+				throw new MappingException(message);
+			} catch (ReflectiveOperationException e) {
+				String message = String.format("AD Prototype mapping error for field %1$s", field.getName());
+				Logger.getLogger(getClass()).error(message, e);
+				throw new MappingException(message, e);
+			}
+		}
+		return ad;
+	}
 
 }

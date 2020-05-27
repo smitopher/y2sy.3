@@ -66,7 +66,7 @@ public class Y2FunctionDetails extends AbstractEntity {
 	public Integer accessPathSurrogate;
 
 	@Column(name="@@MSG_P")
-	public Integer messagePrototypeSgt;
+	public Integer functionPrototypeSgt;
 
 	@Column(name="SRCMBR", length=10)
 	public String sourceMember;

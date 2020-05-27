@@ -28,11 +28,11 @@ import javax.transaction.Transactional;
 
 import com.cmfirsttech.y2.api.constants.ADBlockAttribute;
 import com.cmfirsttech.y2.api.entity.IEntity;
-import com.cmfirsttech.y2.api.entity.impl.Y2ConditionDetails;
+import com.cmfirsttech.y2.api.entity.impl.Y2ActionDiagramPrototype;
 import com.cmfirsttech.y2.api.entity.impl.Y2Field;
 import com.cmfirsttech.y2.api.entity.impl.Y2FunctionActionDiagram;
 import com.cmfirsttech.y2.api.entity.impl.Y2FunctionDetails;
-import com.cmfirsttech.y2.api.mapper.CoreMapper;
+import com.cmfirsttech.y2.api.entity.impl.Y2FunctionPrototype;
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
 import com.cmfirsttech.y2.api.mapper.IMapper;
 import com.cmfirsttech.y2.api.model.ADElementFactory;
@@ -64,7 +64,10 @@ public class FunctionDetails extends AbstractModel {
 
 	public Integer accessPathSurrogate;
 
-	public Integer messagePrototypeSgt;
+	public Integer functionPrototypeSgt;
+	
+	@DirectMapped(mappingType = SKIP)
+	public FunctionPrototype functionPrototype;
 
 	public String sourceMember;
 
@@ -95,10 +98,14 @@ public class FunctionDetails extends AbstractModel {
 	@DirectMapped(mappingType = SKIP)
 	@JsonIgnore()
 	public Map<Integer, IActionDiagram> actionDiagramRoots;
-
+	
 	@Override
 	public void customMapping(IEntity entity, IMapper mapper) {
 		super.customMapping(entity, mapper);
+		Y2FunctionPrototype y2FunctionPrototype = Y2FunctionPrototype.findById(functionPrototypeSgt);
+		functionPrototype = new FunctionPrototype();
+		mapper.directMap(functionPrototype, y2FunctionPrototype);
+		
 		actionDiagramTree = new LinkedHashMap<>();
 		actionDiagramRoots = new LinkedHashMap<>();
 		actionDiagram = new TreeMap<>();
@@ -125,20 +132,24 @@ public class FunctionDetails extends AbstractModel {
 
 	@Transactional
 	private void mapAD(Y2FunctionDetails function, IMapper mapper) {
-//		try (Stream<Y2FunctionActionDiagram> stream = Y2FunctionActionDiagram.stream("adId.functionSurrogate",
-//				Sort.ascending("adId.elementNo"), function.functionSurrogate)) {
-//			stream.forEach(e -> mapADEntry(e, mapper));
-//		}
+		// Load prototype
+		List<Y2ActionDiagramPrototype> prototypeList = Y2ActionDiagramPrototype.list("adid.functionSurrogate", 
+				Sort.ascending("adid.elementNo"), function.functionPrototypeSgt);
+		for (Y2ActionDiagramPrototype adProto : prototypeList) {
+			mapADEntry(adProto.mapfromPrototype(), mapper, adProto.elementType);
+		}
+		// Load User entered action diagram
 		List<Y2FunctionActionDiagram> list = Y2FunctionActionDiagram.list("adId.functionSurrogate",
 				Sort.ascending("adId.elementNo"), function.functionSurrogate);
-		for (Y2FunctionActionDiagram y2FunctionActionDiagram : list) {
-			mapADEntry(y2FunctionActionDiagram, mapper);
+		for (Y2FunctionActionDiagram ad : list) {
+			mapADEntry(ad, mapper, ad.elementType);
 		}
 	}
 
-	private void mapADEntry(Y2FunctionActionDiagram adEntry, IMapper mapper) {
-		IActionDiagram adElement = ADElementFactory.newInstance(adEntry);
-		((CoreMapper) mapper).directMap(adElement, adEntry);
+	private void mapADEntry(IEntity adEntry, IMapper mapper, String type) {
+		IActionDiagram adElement = ADElementFactory.newInstance(type);
+		mapper.directMap(adElement, adEntry);
+		
 		actionDiagramRoots.put(adElement.getElementNo(), adElement);
 		actionDiagramTree.put(adElement.getElementNo(), adElement);
 	}

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package com.cmfirsttech.y2.api.entity.prototype;
+package com.cmfirsttech.y2.api.entity.impl;
 
 import java.math.BigDecimal;
 
@@ -34,17 +34,17 @@ import com.cmfirsttech.y2.api.entity.AbstractEntity;
 public class Y2FunctionPrototype extends AbstractEntity {
 
 	@Column(name="MSGTYP", length=25)
-	public String messageType;
+	public String functionType;
 
 	@Id
 	@Column(name="@@MSG_P")
 	public Integer functionPrototype;
 
 	@Column(name="OBJTYP", length=3)
-	public String objectTypeForObjectType;
+	public String objectType;
 
 	@Column(name="OBJATR", length=3)
-	public String objectAttributeForObjectAttribute;
+	public String objectAttribute;
 
 	@Column(name="MSGTYPABR", length=10)
 	public String messageTypeAbbrev;

@@ -1,4 +1,4 @@
-package com.cmfirsttech.y2.api.entity.impl;
+package com.cmfirsttech.y2.api.entity;
 
 import java.io.Serializable;
 
@@ -6,14 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ActionDiagramId implements Serializable{
+public class ActionDiagramPrototypeId implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "@@MSG")
+	@Column(name="@@MSG_P")
 	public Integer functionSurrogate;
 
 	@Column(name="@@ELM")
@@ -36,7 +36,7 @@ public class ActionDiagramId implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ActionDiagramId other = (ActionDiagramId) obj;
+		ActionDiagramPrototypeId other = (ActionDiagramPrototypeId) obj;
 		if (elementNo == null) {
 			if (other.elementNo != null)
 				return false;

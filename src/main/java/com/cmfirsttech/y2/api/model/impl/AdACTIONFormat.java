@@ -19,6 +19,7 @@ import static com.cmfirsttech.y2.api.mapper.MappingType.SKIP;
 
 import java.time.Instant;
 import java.util.Map;
+import java.util.Optional;
 
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2File;
@@ -85,12 +86,12 @@ public class AdACTIONFormat extends AbstractActionDiagramElement {
 	public void customMapping(IEntity entity, IMapper mapper) {
 		super.customMapping(entity, mapper);
 		if (receivingFile != null) {
-			Y2File file = Y2File.findById(receivingFile);
-			fileName = file.fileName.stripTrailing();
+			Optional<Y2File> file = Y2File.findByIdOptional(receivingFile);
+			file.ifPresent(f -> fileName = f.fileName.stripTrailing());
 		}
 		if (functionSurrogate != null) {
-			Y2Message message = Y2Message.findById(functionSurrogate);
-			messageName = message.messageName.stripTrailing();
+			Optional<Y2Message> message = Y2Message.findByIdOptional(functionSurrogate);
+			message.ifPresent(m -> messageName = m.messageName.stripTrailing());
 		}
 	}
 	

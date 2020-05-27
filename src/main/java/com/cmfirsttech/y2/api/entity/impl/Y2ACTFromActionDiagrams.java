@@ -21,6 +21,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.cmfirsttech.y2.api.entity.AbstractEntity;
+import com.cmfirsttech.y2.api.entity.ActionDiagramId;
 
 
 /**

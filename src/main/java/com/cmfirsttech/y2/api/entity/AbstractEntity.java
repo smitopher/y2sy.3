@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -54,6 +56,11 @@ public abstract class AbstractEntity extends PanacheEntityBase implements IEntit
 			}
 		});
 		return;
+	}
+
+	@Override
+	public Set<Field> getFields() {
+		return getFieldMap(getClass()).values().stream().collect(Collectors.toSet());
 	}
 
 	private Map<String, Field> getFieldMap(Class<? extends IEntity> entity) {

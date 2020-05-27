@@ -34,7 +34,9 @@ public abstract class AbstractActionDiagramElement extends AbstractModel impleme
 	@Override
 	public void customMapping(IEntity entity, IMapper mapper) {
 		super.customMapping(entity, mapper);
-		mapId((Y2FunctionActionDiagram) entity);
+		Y2FunctionActionDiagram y2ad = (Y2FunctionActionDiagram) entity;
+		functionSurrogate = y2ad.adId.functionSurrogate;
+		elementNo = y2ad.adId.elementNo;
 	}
 
 
@@ -68,6 +70,7 @@ public abstract class AbstractActionDiagramElement extends AbstractModel impleme
 				String message = String.format("Element %1$d type %2$s was not found in in AD Tree", 
 						elementNo, elementType);
 				Logger.getLogger(getClass()).warn(message);
+				return map;
 			};
 			nextKey = next.getNext().orElse(null);
 		}

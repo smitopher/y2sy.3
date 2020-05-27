@@ -4,17 +4,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.Test;
+import org.reflections.Reflections;
 
 import com.cmfirsttech.y2.api.mapper.DirectMapped;
 import com.cmfirsttech.y2.api.mapper.MapperFields;
@@ -40,6 +44,7 @@ import com.cmfirsttech.y2.api.model.impl.FileAccessPaths;
 import com.cmfirsttech.y2.api.model.impl.FileDetails;
 import com.cmfirsttech.y2.api.model.impl.FileFunctions;
 import com.cmfirsttech.y2.api.model.impl.FunctionDetails;
+import com.cmfirsttech.y2.api.model.impl.FunctionPrototype;
 import com.cmfirsttech.y2.api.model.impl.ModelEntry;
 import com.cmfirsttech.y2.api.model.impl.ObjectListEntry;
 import com.cmfirsttech.y2.api.model.internal.ModelClass;
@@ -72,6 +77,7 @@ public class Test_03_Models {
 		MODELS.put(AdPARAMFormat.class.getName(), AdPARAMFormat.class);
 		MODELS.put(AdSUBBLKFormat.class.getName(), AdSUBBLKFormat.class);
 		MODELS.put(AdUSREXPFormat.class.getName(), AdUSREXPFormat.class);
+		MODELS.put(FunctionPrototype.class.getName(), FunctionPrototype.class);
 	}
 	
 	@DirectMapped

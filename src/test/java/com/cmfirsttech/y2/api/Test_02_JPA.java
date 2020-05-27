@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2AccessPath;
+import com.cmfirsttech.y2.api.entity.impl.Y2ActionDiagramPrototype;
 import com.cmfirsttech.y2.api.entity.impl.Y2ArrayData;
 import com.cmfirsttech.y2.api.entity.impl.Y2ConditionDetails1JL;
 import com.cmfirsttech.y2.api.entity.impl.Y2EntityRelations;
@@ -30,6 +31,7 @@ import com.cmfirsttech.y2.api.entity.impl.Y2FieldDomain;
 import com.cmfirsttech.y2.api.entity.impl.Y2File;
 import com.cmfirsttech.y2.api.entity.impl.Y2FunctionActionDiagram;
 import com.cmfirsttech.y2.api.entity.impl.Y2FunctionDetails;
+import com.cmfirsttech.y2.api.entity.impl.Y2FunctionPrototype;
 import com.cmfirsttech.y2.api.entity.impl.Y2ModelEntry;
 import com.cmfirsttech.y2.api.entity.impl.Y2ModelListEntry;
 
@@ -55,6 +57,8 @@ public class Test_02_JPA {
 		JPA_ENTITIES.put(Y2ModelListEntry.class.getSimpleName(), Y2ModelListEntry.class);
 		JPA_ENTITIES.put(Y2ModelEntry.class.getName(), Y2ModelEntry.class);
 		JPA_ENTITIES.put(Y2FunctionActionDiagram.class.getName(), Y2FunctionActionDiagram.class);
+		JPA_ENTITIES.put(Y2FunctionPrototype.class.getSimpleName(), Y2FunctionPrototype.class);
+		JPA_ENTITIES.put(Y2ActionDiagramPrototype.class.getSimpleName(), Y2ActionDiagramPrototype.class);
 	}
 
 	@Test

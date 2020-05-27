@@ -17,8 +17,10 @@ package com.cmfirsttech.y2.api.entity;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
+import java.util.Set;
 
 public interface IEntity {
 	public Optional<Field> getMappedField(String name);
 	public void stripTrailing();
+	public Set<Field> getFields();
 }

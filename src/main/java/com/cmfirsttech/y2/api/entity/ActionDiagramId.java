@@ -1,4 +1,4 @@
-package com.cmfirsttech.y2.api.entity.prototype;
+package com.cmfirsttech.y2.api.entity;
 
 import java.io.Serializable;
 
@@ -6,15 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ActionDiagramPrototypeId implements Serializable{
+public class ActionDiagramId implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="@@MSG_P")
-	public Integer prototypeSurrogate;
+	@Column(name = "@@MSG")
+	public Integer functionSurrogate;
 
 	@Column(name="@@ELM")
 	public Integer elementNo;
@@ -24,7 +24,7 @@ public class ActionDiagramPrototypeId implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((elementNo == null) ? 0 : elementNo.hashCode());
-		result = prime * result + ((prototypeSurrogate == null) ? 0 : prototypeSurrogate.hashCode());
+		result = prime * result + ((functionSurrogate == null) ? 0 : functionSurrogate.hashCode());
 		return result;
 	}
 
@@ -36,16 +36,16 @@ public class ActionDiagramPrototypeId implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ActionDiagramPrototypeId other = (ActionDiagramPrototypeId) obj;
+		ActionDiagramId other = (ActionDiagramId) obj;
 		if (elementNo == null) {
 			if (other.elementNo != null)
 				return false;
 		} else if (!elementNo.equals(other.elementNo))
 			return false;
-		if (prototypeSurrogate == null) {
-			if (other.prototypeSurrogate != null)
+		if (functionSurrogate == null) {
+			if (other.functionSurrogate != null)
 				return false;
-		} else if (!prototypeSurrogate.equals(other.prototypeSurrogate))
+		} else if (!functionSurrogate.equals(other.functionSurrogate))
 			return false;
 		return true;
 	}
