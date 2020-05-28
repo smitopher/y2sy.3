@@ -5,8 +5,11 @@ import java.math.BigDecimal;
 import com.cmfirsttech.y2.api.entity.impl.Y2FunctionPrototype;
 import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Y2EntityClass(entityClass = Y2FunctionPrototype.class)
+@JsonInclude(Include.NON_NULL)
 public class FunctionPrototype extends AbstractModel {
 	
 	public String functionType;

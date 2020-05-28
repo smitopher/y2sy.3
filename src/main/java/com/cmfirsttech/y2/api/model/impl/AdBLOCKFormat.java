@@ -26,12 +26,15 @@ import com.cmfirsttech.y2.api.mapper.MappingType;
 import com.cmfirsttech.y2.api.model.HasNextModel;
 import com.cmfirsttech.y2.api.model.IActionDiagram;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Action Diagram DDS format @BLOCK
  * 
  */
 @Y2EntityClass(entityClass = Y2FunctionActionDiagram.class)
+@JsonInclude(Include.NON_NULL)
 public class AdBLOCKFormat extends HasNextModel {
 	
 	public String elementTitle;
@@ -42,16 +45,19 @@ public class AdBLOCKFormat extends HasNextModel {
 	public Integer actionActSurrogate;
 	
 	@DirectMapped(mappingType = SKIP)
-	public AdACTIONFormat adAction;
+	public IActionDiagram adAction;
 
 	@DirectMapped(mapSource = "subChain2Sgt")
 	public Integer subChainNotActBlock;
 
 	@DirectMapped(mappingType = SKIP)
 	public Map<Integer, IActionDiagram> adNotActions;
-
+	
 	@DirectMapped(mapSource = "subChain3Sgt")
 	public Integer contextPointer;
+
+	@DirectMapped(mappingType = SKIP)
+	public IActionDiagram context;
 
 	public String hideElement;
 

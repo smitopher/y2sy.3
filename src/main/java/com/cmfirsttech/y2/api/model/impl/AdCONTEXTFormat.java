@@ -22,12 +22,15 @@ import com.cmfirsttech.y2.api.mapper.DirectMapped;
 import com.cmfirsttech.y2.api.mapper.MappingType;
 import com.cmfirsttech.y2.api.model.AbstractActionDiagramElement;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Action Diagram DDS format @CONTEXT
  * 
  */
 @Y2EntityClass(entityClass = Y2FunctionActionDiagram.class)
+@JsonInclude(Include.NON_NULL)
 public class AdCONTEXTFormat extends AbstractActionDiagramElement {
 	
 	@DirectMapped(mapSource = "elementTitle")

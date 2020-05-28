@@ -65,13 +65,15 @@ public abstract class AbstractActionDiagramElement extends AbstractModel impleme
 		int index = 0;
 		while (nextKey != null) {
 			IActionDiagram next = actionDiagramRoots.get(nextKey);
-			map.put(index++, next);
-			if (actionDiagramTree.remove(nextKey) == null) {
+			if (next != null) {
+				map.put(index++, next);
+				actionDiagramTree.remove(nextKey);
+			} else {
 				String message = String.format("Element %1$d type %2$s was not found in in AD Tree", 
 						elementNo, elementType);
 				Logger.getLogger(getClass()).warn(message);
 				return map;
-			};
+			}
 			nextKey = next.getNext().orElse(null);
 		}
 		return map;

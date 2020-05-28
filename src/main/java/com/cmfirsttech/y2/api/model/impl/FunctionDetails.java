@@ -26,7 +26,6 @@ import java.util.TreeMap;
 
 import javax.transaction.Transactional;
 
-import com.cmfirsttech.y2.api.constants.ADBlockAttribute;
 import com.cmfirsttech.y2.api.entity.IEntity;
 import com.cmfirsttech.y2.api.entity.impl.Y2ActionDiagramPrototype;
 import com.cmfirsttech.y2.api.entity.impl.Y2Field;
@@ -40,10 +39,13 @@ import com.cmfirsttech.y2.api.model.AbstractModel;
 import com.cmfirsttech.y2.api.model.IActionDiagram;
 import com.cmfirsttech.y2.api.model.Y2EntityClass;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import io.quarkus.panache.common.Sort;
 
 @Y2EntityClass(entityClass = Y2FunctionDetails.class)
+@JsonInclude(Include.NON_NULL)
 public class FunctionDetails extends AbstractModel {
 
 	public Integer fileSurrogate;
@@ -65,7 +67,7 @@ public class FunctionDetails extends AbstractModel {
 	public Integer accessPathSurrogate;
 
 	public Integer functionPrototypeSgt;
-	
+
 	@DirectMapped(mappingType = SKIP)
 	public FunctionPrototype functionPrototype;
 
@@ -86,7 +88,6 @@ public class FunctionDetails extends AbstractModel {
 	public String defaultMessageInd;
 
 	public Integer sbmjobOverrideSgt;
-	
 
 	@DirectMapped(mappingType = SKIP)
 	public Map<Integer, IActionDiagram> actionDiagram;
@@ -98,14 +99,14 @@ public class FunctionDetails extends AbstractModel {
 	@DirectMapped(mappingType = SKIP)
 	@JsonIgnore()
 	public Map<Integer, IActionDiagram> actionDiagramRoots;
-	
+
 	@Override
 	public void customMapping(IEntity entity, IMapper mapper) {
 		super.customMapping(entity, mapper);
 		Y2FunctionPrototype y2FunctionPrototype = Y2FunctionPrototype.findById(functionPrototypeSgt);
 		functionPrototype = new FunctionPrototype();
 		mapper.directMap(functionPrototype, y2FunctionPrototype);
-		
+
 		actionDiagramTree = new LinkedHashMap<>();
 		actionDiagramRoots = new LinkedHashMap<>();
 		actionDiagram = new TreeMap<>();
@@ -127,13 +128,13 @@ public class FunctionDetails extends AbstractModel {
 		for (IActionDiagram iActionDiagram : actionDiagramTree.values()) {
 			actionDiagram.put(index++, iActionDiagram);
 		}
-		
+
 	}
 
 	@Transactional
 	private void mapAD(Y2FunctionDetails function, IMapper mapper) {
 		// Load prototype
-		List<Y2ActionDiagramPrototype> prototypeList = Y2ActionDiagramPrototype.list("adid.functionSurrogate", 
+		List<Y2ActionDiagramPrototype> prototypeList = Y2ActionDiagramPrototype.list("adid.functionSurrogate",
 				Sort.ascending("adid.elementNo"), function.functionPrototypeSgt);
 		for (Y2ActionDiagramPrototype adProto : prototypeList) {
 			mapADEntry(adProto.mapfromPrototype(), mapper, adProto.elementType);
@@ -149,7 +150,7 @@ public class FunctionDetails extends AbstractModel {
 	private void mapADEntry(IEntity adEntry, IMapper mapper, String type) {
 		IActionDiagram adElement = ADElementFactory.newInstance(type);
 		mapper.directMap(adElement, adEntry);
-		
+
 		actionDiagramRoots.put(adElement.getElementNo(), adElement);
 		actionDiagramTree.put(adElement.getElementNo(), adElement);
 	}
@@ -157,24 +158,28 @@ public class FunctionDetails extends AbstractModel {
 	private void processSUB(IActionDiagram iActionDiagram) {
 		AdSUBBLKFormat adSUBBLKFormat = (AdSUBBLKFormat) iActionDiagram;
 		if (adSUBBLKFormat.blockChain != null) {
-			adSUBBLKFormat.adBlocks = adSUBBLKFormat.fetchBlock(
-					adSUBBLKFormat.blockChain, actionDiagramTree, actionDiagramRoots);
+			adSUBBLKFormat.adBlocks = adSUBBLKFormat.fetchBlock(adSUBBLKFormat.blockChain, actionDiagramTree,
+					actionDiagramRoots);
 		}
-		
+
 		if (adSUBBLKFormat.controllingCondition != null) {
-			adSUBBLKFormat.adCONDITFormat = (AdCONDITFormat)actionDiagramRoots.get(adSUBBLKFormat.controllingCondition);
+			adSUBBLKFormat.adCONDITFormat = (AdCONDITFormat) actionDiagramRoots
+					.get(adSUBBLKFormat.controllingCondition);
 			actionDiagramTree.remove(adSUBBLKFormat.controllingCondition);
 		}
-		
+
 	}
 
 	private void processPAR(IActionDiagram iActionDiagram) {
+		// TODO
 	}
 
 	private void processEXP(IActionDiagram iActionDiagram) {
+		// TODO
 	}
 
 	private void processCTX(IActionDiagram iActionDiagram) {
+		// TODO
 	}
 
 	private void processCND(IActionDiagram iActionDiagram) {
@@ -186,62 +191,38 @@ public class FunctionDetails extends AbstractModel {
 			}
 		}
 		if (adCONDITFormat.compoundConditionChain != null) {
-			adCONDITFormat.compoundCondition = adCONDITFormat.fetchBlock(
-					adCONDITFormat.compoundConditionChain, actionDiagramTree, actionDiagramRoots);
+			adCONDITFormat.compoundCondition = adCONDITFormat.fetchBlock(adCONDITFormat.compoundConditionChain,
+					actionDiagramTree, actionDiagramRoots);
 		}
 		if (adCONDITFormat.userExpressionChain != null) {
-			adCONDITFormat.userExpression = adCONDITFormat.fetchBlock(
-					adCONDITFormat.userExpressionChain, actionDiagramTree, actionDiagramRoots);
+			adCONDITFormat.userExpression = adCONDITFormat.fetchBlock(adCONDITFormat.userExpressionChain,
+					actionDiagramTree, actionDiagramRoots);
 		}
-		
-		
+
 	}
 
 	private void processCMP(IActionDiagram iActionDiagram) {
-		
+		AdCOMPAREFormat adCOMPAREFormat = (AdCOMPAREFormat) iActionDiagram;
+		Optional<Y2Field> y2Field = Y2Field.findByIdOptional(adCOMPAREFormat.owningField);
+		if (y2Field.isPresent()) {
+			adCOMPAREFormat.owningFieldName = y2Field.get().fieldName.stripTrailing();
+		}
 	}
 
 	private void processBLK(IActionDiagram iActionDiagram) {
 		AdBLOCKFormat adBLOCKFormat = (AdBLOCKFormat) iActionDiagram;
-		ADBlockAttribute attribute = ADBlockAttribute.valueOf(adBLOCKFormat.elementAttribute);
-		switch (attribute) {
-		case ACT -> processActBlk(adBLOCKFormat);
-		case CAS -> processCasBlk(adBLOCKFormat);
-		case EXT -> processExtBlk(adBLOCKFormat);
-		case ITR -> processItrBlk(adBLOCKFormat);
-		case SEQ -> processSeqBlk(adBLOCKFormat);
-		case TXT -> processTxtBlk(adBLOCKFormat);
+		if (adBLOCKFormat.actionActSurrogate != null) {
+			adBLOCKFormat.adAction = actionDiagramRoots.get(adBLOCKFormat.actionActSurrogate);
+			actionDiagramTree.remove(adBLOCKFormat.actionActSurrogate);
 		}
-		
-	}
-
-	private void processSeqBlk(AdBLOCKFormat adBLOCKFormat) {
-		adBLOCKFormat.adNotActions = adBLOCKFormat.fetchBlock(
-				adBLOCKFormat.subChainNotActBlock, actionDiagramTree, actionDiagramRoots);
+		if (adBLOCKFormat.subChainNotActBlock != null) {
+			adBLOCKFormat.adNotActions = adBLOCKFormat.fetchBlock(adBLOCKFormat.subChainNotActBlock, actionDiagramTree,
+					actionDiagramRoots);
 		}
-
-	private void processCasBlk(AdBLOCKFormat adBLOCKFormat) {
-		adBLOCKFormat.adNotActions = adBLOCKFormat.fetchBlock(
-				adBLOCKFormat.subChainNotActBlock, actionDiagramTree, actionDiagramRoots);
-	}
-
-	private void processTxtBlk(AdBLOCKFormat adBLOCKFormat) {
-		
-	}
-
-	private void processItrBlk(AdBLOCKFormat adBLOCKFormat) {
-		
-	}
-
-	private void processExtBlk(AdBLOCKFormat adBLOCKFormat) {
-		
-	}
-
-	private void processActBlk(AdBLOCKFormat adBLOCKFormat) {
-		Integer actKey = adBLOCKFormat.actionActSurrogate;
-		AdACTIONFormat adACTIONFormat = (AdACTIONFormat)actionDiagramRoots.get(actKey);
-		adBLOCKFormat.adAction = adACTIONFormat;
-		actionDiagramTree.remove(actKey);
+		if (adBLOCKFormat.contextPointer != null) {
+			adBLOCKFormat.context = actionDiagramRoots.get(adBLOCKFormat.contextPointer);
+			actionDiagramTree.remove(adBLOCKFormat.contextPointer);
+		}
 	}
 
 	private void processACT(IActionDiagram iActionDiagram) {
